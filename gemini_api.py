@@ -19,7 +19,7 @@ else:
 
 
 
-def generate_image(fabric_image, model_image, prompt):
+def generate_image(fabric_image, model_image, prompt, fabric_image_2=None):
     """
     Generates an image using the Gemini 1.5 Flash model.
     """
@@ -27,8 +27,14 @@ def generate_image(fabric_image, model_image, prompt):
         model = genai.GenerativeModel('gemini-2.5-flash-image')
         fabric_image_pil = PIL.Image.open(fabric_image)
         model_image_pil = PIL.Image.open(model_image)
+        
+        content = [prompt, fabric_image_pil, model_image_pil]
+        
+        if fabric_image_2:
+            fabric_image_2_pil = PIL.Image.open(fabric_image_2)
+            content.append(fabric_image_2_pil)
 
-        response = model.generate_content([prompt, fabric_image_pil, model_image_pil])
+        response = model.generate_content(content)
 
         if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
             for part in response.candidates[0].content.parts:
