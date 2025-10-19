@@ -49,7 +49,7 @@ if st.button("Generate Style"):
 
         if generated_image:
 
-            st.image(generated_image, caption="Your AI Styled Outfit", use_column_width=True)
+                        st.image(generated_image, caption="Your AI Styled Outfit", use_container_width=True)
 
             generated_image.seek(0)
             st.download_button(
